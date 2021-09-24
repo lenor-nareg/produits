@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MON PANIER!
+{% endblock %}
+
+{% block body %}
+
+	<div class="bg-light p-3">
+		<h1>
+			Mon panier</h1>
+	</di>
+
+	{% if items | length > 0 %}
+		{# si mon panier contient au moins 1 item, j'affiche le contenu #}
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Produit</th>
+					<th>description</th>
+					<th>prix</th>
+					<th>Total</th>
+					<th>supp</th>
+					<th>changer qté</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in items %}
+					{# pour chaq produit contenu ds le panier, j v aff les data du prod (nom, prix etc...) #}
+					<tr>
+						<td>{{ item.produit.nom }}</td>
+						<td>{{ item.produit.description }}</td>
+						<td>{{ item.produit.prix }}€</td>
+						<td>{{ item.produit.prix * item.quantity }}€</td>
+						<td>
+							<a href="{{ path('cart_delete', {'id': item.produit.id}) }}" class="btn btn-danger btn-sm">
+								<i class="fas fa-trash"></i>
+							</a>
+
+						</td>
+						<td>
+							<a href="{{ path('cart_add', {'id': item.produit.id}) }}" class="btn btn-success btn-sm">
+								<i class="fas fa-plus"></i>
+							</a>
+							<span>
+								ou
+							</span>
+							<a href="{{ path('cart_decrement', {'id': item.produit.id}) }}" class="btn btn-success btn-sm">
+								<i class="fas fa-minus"></i>
+							</a>
+
+						</td>
+						{# <td>
+							<a href="{{ path('cart_add', {'id': item.product.id}) }}" class="btn btn-success btn-sm">
+								<i class="fas fa-minus"></i>
+							</a>
+
+						</td> #}
+					</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3" class="text-end">Total :
+					</td>
+					<td>{{ total }}€</td>
+					
+				</tr>
+			</tfoot>
+		</table>
+
+
+	{% else %}
+		<p>Mon panier est vide</p>
+	{% endif %}
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit index
+{% endblock %}
+
+{% block body %}
+
+	{{ form_start(form) }}
+<div class="form-row align-items-end" >
+<div class="col">
+ {{ form_row(form.nom) }}
+</div>
+ <div class="col">
+ <div class="form-group">
+ <button type="submit" class="btn btn-success">Rechercher</button>
+ </div>
+</div>
+</div>
+{{ form_end(form) }}
+
+
+
+	<h1>Liste des produits</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+
+				<th>Nom</th>
+				<th>Description</th>
+				<th>Prix</th>
+				<th>Image</th>
+				<th>actions</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for produit in produits %}
+				<tr>
+
+					<td>{{ produit.nom }}</td>
+					<td>{{ produit.description }}</td>
+					<td>{{ produit.prix }}</td>
+					{# <td><img src="{{ produit.image }}" alt="" srcset=""></td> #}
+					<td><img src="{{ asset('images/produits/' ~ produit.image ) }}" alt="image non dspo" class=""></td>
+					<td>
+						<a href="{{ path('produit_show', {'id': produit.id}) }}">show</a>
+						<a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
+					</td>
+                    <td><a href="{{ path('cart_add', {'id' : produit.id }) }}" class="card-link btn btn-primary">Ajouter au panier</a></td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<a href="{{ path('produit_new') }}">Create new</a>
+{% endblock %}
